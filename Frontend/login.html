@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Iniciar Sesión - Gestión Documental CC</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Shared Style Context & Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#dae2ff",
+                        "on-tertiary-fixed": "#001f27",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c3c6d6",
+                        "primary-container": "#0052cc",
+                        "on-secondary-container": "#576377",
+                        "tertiary-fixed": "#afecff",
+                        "surface-tint": "#0c56d0",
+                        "surface-column": "#F4F5F7",
+                        "inverse-surface": "#2e3132",
+                        "inverse-on-surface": "#f0f1f3",
+                        "surface": "#f8f9fb",
+                        "secondary-fixed": "#d7e3fb",
+                        "surface-container-low": "#f3f4f6",
+                        "tertiary-fixed-dim": "#48d7f9",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "primary": "#003d9b",
+                        "secondary-fixed-dim": "#bbc7de",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeef0",
+                        "outline": "#737685",
+                        "on-secondary-fixed": "#101c2d",
+                        "on-tertiary-fixed-variant": "#004e5d",
+                        "on-surface-variant": "#434654",
+                        "on-primary-fixed": "#001848",
+                        "secondary-container": "#d4e0f8",
+                        "on-primary-container": "#c4d2ff",
+                        "tertiary": "#004b59",
+                        "surface-bright": "#f8f9fb",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "inverse-primary": "#b2c5ff",
+                        "background": "#f8f9fb",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#76e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "secondary": "#535f73",
+                        "surface-variant": "#e1e2e4",
+                        "on-secondary-fixed-variant": "#3b475b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d9dadc",
+                        "tertiary-container": "#006477",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "24px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "touch-target-min": "44px",
+                        "margin-mobile": "16px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fb;
+            /* Prevent horizontal scroll on mobile */
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        /* Login-specific animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 61, 155, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 0 12px rgba(0, 61, 155, 0);
+            }
+        }
+
+        @keyframes floatIcon {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .login-card {
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .login-icon {
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        .shimmer-bar {
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 61, 155, 0.08) 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2.5s ease-in-out infinite;
+        }
+
+        .input-focus-ring {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-focus-ring:focus-within {
+            border-color: #003d9b;
+            box-shadow: 0 0 0 3px rgba(0, 61, 155, 0.12);
+        }
+
+        .btn-login {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Minimum touch target */
+            min-height: 48px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px -4px rgba(0, 61, 155, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translateX(-1px);
+            }
+
+            20%,
+            80% {
+                transform: translateX(2px);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translateX(-4px);
+            }
+
+            40%,
+            60% {
+                transform: translateX(4px);
+            }
+        }
+
+        /* Decorative background pattern */
+        .bg-pattern {
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(0, 61, 155, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 82, 204, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 60% 80%, rgba(0, 75, 89, 0.03) 0%, transparent 50%);
+        }
+
+        /* ── Mobile-specific overrides ─────────────────────────── */
+        @media (max-width: 480px) {
+            /* Remove card shadow/rounded corners and make it flush on very small screens */
+            .login-card-inner {
+                border-radius: 16px !important;
+                box-shadow: 0 4px 24px -4px rgba(0,0,0,0.12) !important;
+            }
+
+            /* Tighter inner padding on mobile */
+            .login-inner-pad {
+                padding: 24px 20px 28px !important;
+            }
+
+            /* Shrink icon on very small screens */
+            .login-logo {
+                width: 64px !important;
+                height: 64px !important;
+            }
+
+            /* Larger touch targets for inputs */
+            .input-focus-ring {
+                padding-top: 14px !important;
+                padding-bottom: 14px !important;
+            }
+
+            /* Remove hover transform on touch to avoid sticky states */
+            .btn-login:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        /* Prevent iOS tap highlight */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Smooth scrolling for the page */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+    <!-- Full-page login layout -->
+    <div class="min-h-screen flex flex-col bg-pattern">
+        <!-- Top bar (minimal) -->
+        <header
+            class="bg-surface/80 backdrop-blur-sm border-b border-outline-variant w-full flex justify-center items-center px-4 sm:px-6 h-12 sm:h-14">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <span class="material-symbols-outlined text-primary text-[22px] sm:text-[28px]"
+                    style="font-variation-settings: 'FILL' 1;">description</span>
+                <span
+                    class="font-bold text-primary text-[15px] sm:text-headline-md leading-tight">
+                    <span class="hidden xs:inline">Gestión Documental CC</span>
+                    <span class="xs:hidden">Gestión Documental</span>
+                </span>
+            </div>
+        </header>
+
+        <!-- Centered login card -->
+        <main class="flex-1 flex items-center justify-center px-3 sm:px-4 py-4 sm:py-8">
+            <div class="login-card w-full max-w-md">
+                <!-- Card container -->
+                <div
+                    class="login-card-inner bg-surface-container-lowest rounded-2xl border border-outline-variant shadow-xl overflow-hidden">
+                    <!-- Top accent bar -->
+                    <div class="h-1.5 bg-gradient-to-r from-primary via-primary-container to-tertiary-container"></div>
+
+                    <div class="login-inner-pad px-5 pt-6 pb-7 sm:px-10 sm:pt-10 sm:pb-12">
+                        <!-- Icon + Title -->
+                        <div class="flex flex-col items-center mb-5 sm:mb-8">
+                            <div
+                                class="login-icon login-logo w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-primary-fixed flex items-center justify-center mb-4 sm:mb-5 overflow-hidden">
+                                <img src="img/logoCC.png" alt="Logo Login" class="w-full h-full object-cover">
+                            </div>
+
+                            <h1 class="font-bold text-[22px] sm:text-headline-lg leading-tight text-on-surface text-center">Iniciar Sesión</h1>
+                            <p class="text-[13px] sm:text-body-md text-on-surface-variant mt-1 sm:mt-2 text-center leading-snug">
+                                Ingresa tus credenciales para acceder al sistema.
+                            </p>
+                        </div>
+
+                        <!-- Shimmer divider -->
+                        <div class="h-px shimmer-bar mb-5 sm:mb-8 rounded-full"></div>
+
+                        <!-- Login form -->
+                        <form id="loginForm" class="space-y-4 sm:space-y-5" autocomplete="off">
+                            <!-- Username -->
+                            <div>
+                                <label for="loginUser"
+                                    class="block text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-1.5 sm:mb-2">Usuario</label>
+                                <div
+                                    class="input-focus-ring flex items-center gap-3 bg-surface-container-low border border-outline-variant rounded-xl px-4 py-3.5 sm:py-3">
+                                    <span
+                                        class="material-symbols-outlined text-on-surface-variant text-[20px] flex-shrink-0">person</span>
+                                    <input id="loginUser"
+                                        class="flex-1 bg-transparent border-none focus:ring-0 text-body-lg text-on-surface placeholder-on-surface-variant/60 p-0 min-w-0"
+                                        type="text" placeholder="Nombre de usuario" required autocomplete="username" />
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label for="loginPassword"
+                                    class="block text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-1.5 sm:mb-2">Contraseña</label>
+                                <div
+                                    class="input-focus-ring flex items-center gap-3 bg-surface-container-low border border-outline-variant rounded-xl px-4 py-3.5 sm:py-3">
+                                    <span
+                                        class="material-symbols-outlined text-on-surface-variant text-[20px] flex-shrink-0">lock</span>
+                                    <input id="loginPassword"
+                                        class="flex-1 bg-transparent border-none focus:ring-0 text-body-lg text-on-surface placeholder-on-surface-variant/60 p-0 min-w-0"
+                                        type="password" placeholder="••••••••" required
+                                        autocomplete="current-password" />
+                                    <button type="button" id="togglePassword"
+                                        class="text-on-surface-variant hover:text-primary transition-colors p-1 flex-shrink-0 touch-manipulation"
+                                        tabindex="-1" aria-label="Mostrar u ocultar contraseña">
+                                        <span class="material-symbols-outlined text-[20px]">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Error message (hidden by default) -->
+                            <div id="loginError"
+                                class="hidden items-center gap-2 px-4 py-3 bg-error-container/50 border border-error/20 text-on-error-container rounded-xl text-body-md">
+                                <span class="material-symbols-outlined text-[18px] flex-shrink-0">error</span>
+                                <span id="loginErrorText">Usuario o contraseña incorrectos.</span>
+                            </div>
+
+                            <!-- Submit -->
+                            <button id="btnLogin" type="submit"
+                                class="btn-login w-full bg-primary text-on-primary px-6 h-12 sm:h-12 rounded-xl flex items-center justify-center gap-2 font-label-md text-[14px] tracking-wide shadow-md mt-1 sm:mt-2 touch-manipulation">
+                                <span id="btnLoginText" class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[20px]">login</span>
+                                    Acceder
+                                </span>
+                                <!-- Loading spinner (hidden) -->
+                                <svg id="btnLoginSpinner" class="hidden animate-spin h-5 w-5 text-on-primary"
+                                    viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4" fill="none"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer note -->
+                <p class="text-center text-label-sm text-on-surface-variant mt-4 sm:mt-6 opacity-70 px-2">
+                    <span class="material-symbols-outlined text-[14px] mr-1" style="vertical-align: -2px;">info</span>
+                    Acceso restringido. Solo personal autorizado.
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+            // If already authenticated, redirect away from login
+            (function () {
+                if (sessionStorage.getItem('stitch_auth') === 'true') {
+                    const params = new URLSearchParams(window.location.search);
+                    const redirect = params.get('redirect') || 'index.html';
+                    window.location.replace(redirect);
+                }
+            })();
+
+        // --- Credentials (frontend-only auth) ---
+        const VALID_USER = 'servicioCC';
+        const VALID_PASS = '2026';
+
+        // DOM refs
+        const loginForm = document.getElementById('loginForm');
+        const loginUser = document.getElementById('loginUser');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginError = document.getElementById('loginError');
+        const loginErrorText = document.getElementById('loginErrorText');
+        const btnLogin = document.getElementById('btnLogin');
+        const btnLoginText = document.getElementById('btnLoginText');
+        const btnLoginSpinner = document.getElementById('btnLoginSpinner');
+        const togglePassword = document.getElementById('togglePassword');
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', () => {
+            const isPassword = loginPassword.type === 'password';
+            loginPassword.type = isPassword ? 'text' : 'password';
+            togglePassword.querySelector('.material-symbols-outlined').textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+
+        // Hide error on input
+        [loginUser, loginPassword].forEach(input => {
+            input.addEventListener('input', () => {
+                loginError.classList.add('hidden');
+                loginError.classList.remove('flex');
+            });
+        });
+
+        // Form submit
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const user = loginUser.value.trim();
+            const pass = loginPassword.value;
+
+            if (!user || !pass) return;
+
+            // Show loading state
+            btnLogin.disabled = true;
+            btnLoginText.classList.add('hidden');
+            btnLoginSpinner.classList.remove('hidden');
+
+            // Small delay for UX feel
+            await new Promise(r => setTimeout(r, 600));
+
+            if (user === VALID_USER && pass === VALID_PASS) {
+                // Success — save session
+                sessionStorage.setItem('stitch_auth', 'true');
+                sessionStorage.setItem('stitch_user', user);
+
+                // Redirect to intended page
+                const params = new URLSearchParams(window.location.search);
+                const redirect = params.get('redirect') || 'index.html';
+                window.location.replace(redirect);
+            } else {
+                // Failed — show error with shake
+                btnLogin.disabled = false;
+                btnLoginText.classList.remove('hidden');
+                btnLoginSpinner.classList.add('hidden');
+
+                loginError.classList.remove('hidden');
+                loginError.classList.add('flex');
+                loginErrorText.textContent = 'Usuario o contraseña incorrectos.';
+
+                // Shake the form
+                const card = loginForm.closest('.bg-surface-container-lowest');
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 500);
+
+                // Focus the user field
+                loginUser.select();
+            }
+        });
+
+        // Focus username on load
+        window.addEventListener('load', () => loginUser.focus());
+    </script>
+</body>
+
+</html>

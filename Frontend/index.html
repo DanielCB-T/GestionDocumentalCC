@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Stitch - Document Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Shared Style Context & Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#dae2ff",
+                        "on-tertiary-fixed": "#001f27",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c3c6d6",
+                        "primary-container": "#0052cc",
+                        "on-secondary-container": "#576377",
+                        "tertiary-fixed": "#afecff",
+                        "surface-tint": "#0c56d0",
+                        "surface-column": "#F4F5F7",
+                        "inverse-surface": "#2e3132",
+                        "inverse-on-surface": "#f0f1f3",
+                        "surface": "#f8f9fb",
+                        "secondary-fixed": "#d7e3fb",
+                        "surface-container-low": "#f3f4f6",
+                        "tertiary-fixed-dim": "#48d7f9",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "primary": "#003d9b",
+                        "secondary-fixed-dim": "#bbc7de",
+                        "on-surface": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeef0",
+                        "outline": "#737685",
+                        "on-secondary-fixed": "#101c2d",
+                        "on-tertiary-fixed-variant": "#004e5d",
+                        "on-surface-variant": "#434654",
+                        "on-primary-fixed": "#001848",
+                        "secondary-container": "#d4e0f8",
+                        "on-primary-container": "#c4d2ff",
+                        "tertiary": "#004b59",
+                        "surface-bright": "#f8f9fb",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "inverse-primary": "#b2c5ff",
+                        "background": "#f8f9fb",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#76e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "secondary": "#535f73",
+                        "surface-variant": "#e1e2e4",
+                        "on-secondary-fixed-variant": "#3b475b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d9dadc",
+                        "tertiary-container": "#006477",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "24px",
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "touch-target-min": "44px",
+                        "margin-mobile": "16px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fb;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dfe1e6;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #c3c6d6;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+    <script src="auth.js"></script>
+    <!-- TopAppBar (Web Desktop Implementation) -->
+    <header
+        class="bg-surface border-b border-outline-variant fixed top-0 w-full z-50 flex justify-between items-center px-6 h-14">
+        <div class="flex items-center gap-4">
+            <button
+                class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors duration-200">menu</button>
+            <span class="font-headline-sm sm:font-headline-md text-body-lg sm:text-headline-md font-bold text-primary truncate max-w-[140px] sm:max-w-none">Gestión Documental CC</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div
+                class="hidden md:flex items-center px-3 py-1.5 bg-surface-container-low border border-outline-variant rounded-lg gap-2 focus-within:border-primary transition-all">
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+                <input id="globalSearch" class="bg-transparent border-none focus:ring-0 text-body-md w-48 lg:w-64"
+                    placeholder="Global search..." type="text" />
+            </div>
+            <button
+                class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">notifications</button>
+            <button onclick="cerrarSesion()"
+                class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors duration-200" title="Cerrar Sesión">logout</button>
+        </div>
+    </header>
+    <div class="flex pt-14 h-screen overflow-hidden">
+        <!-- Sidebar Navigation (Desktop Persistent) -->
+        <aside
+            class="w-64 bg-surface-container-lowest border-r border-outline-variant hidden md:flex flex-col py-6 px-4">
+            <nav class="space-y-1">
+                <!-- Lista is active based on the screen context -->
+                <a class="nav-lista flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-container/10 text-primary font-bold transition-all duration-200 group"
+                    href="index.html">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+                    <span class="text-label-md font-label-md">Lista</span>
+                </a>
+                <a class="nav-busqueda flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 group"
+                    href="busqueda.html">
+                    <span class="material-symbols-outlined">search</span>
+                    <span class="text-label-md font-label-md">Busqueda</span>
+                </a>
+                <a class="nav-documentos flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 group"
+                    href="documentos.html">
+                    <span class="material-symbols-outlined">folder_open</span>
+                    <span class="text-label-md font-label-md">Documentos</span>
+                </a>
+                <a class="nav-reportes flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200 group"
+                    href="reportes.html">
+                    <span class="material-symbols-outlined">description</span>
+                    <span class="text-label-md font-label-md">Reportes</span>
+                </a>
+            </nav>
+            <div class="mt-auto pt-6 border-t border-outline-variant space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="text-label-md font-label-md">Configuración</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="text-label-md font-label-md">Ayuda</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-error hover:bg-error-container/30 transition-all duration-200 cursor-pointer"
+                    onclick="cerrarSesion()">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="text-label-md font-label-md">Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto custom-scrollbar bg-surface-bright">
+            <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8 pb-24 md:pb-8">
+                <!-- Page Title & Header Actions -->
+                <div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-6 md:mb-8">
+                    <div>
+                        <h1 class="font-headline-lg text-headline-lg text-on-surface">Gestión de Documentos</h1>
+                        <p class="text-body-md text-on-surface-variant mt-1">Visualiza y organiza los archivos críticos
+                            de tu sistema.</p>
+                    </div>
+                    <button id="btnNuevoDocumento"
+                        class="w-full sm:w-auto justify-center bg-primary text-on-primary px-6 h-11 rounded-lg flex items-center gap-2 font-label-md shadow-sm hover:brightness-110 active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-[20px]">add</span>
+                        Nuevo Documento
+                    </button>
+                </div>
+
+                <!-- Search & Filters -->
+                <div class="mb-6 space-y-4">
+                    <div
+                        class="flex items-center gap-2 sm:gap-4 bg-surface-container-lowest p-2 rounded-xl border border-outline-variant shadow-sm">
+                        <div class="flex-1 flex items-center gap-3 px-3">
+                            <span class="material-symbols-outlined text-on-surface-variant">search</span>
+                            <input id="tableSearch"
+                                class="flex-1 border-none focus:ring-0 bg-transparent text-body-lg h-10"
+                                placeholder="Buscar por nombre, autor o folio..." type="text" />
+                        </div>
+                        <div class="h-8 w-px bg-outline-variant mx-2"></div>
+                        <button
+                            class="flex items-center gap-2 px-2 sm:px-4 py-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors font-label-md">
+                            <span class="material-symbols-outlined">filter_list</span>
+                            <span class="hidden md:inline">Filtros Avanzados</span>
+                        </button>
+                    </div>
+                    <!-- Filter Chips (ocultos a pedido: ya no se muestran Pendientes/Completados/Recientes/etc.) -->
+                    <div class="hidden items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                        <button
+                            class="filter-chip px-4 py-1.5 rounded-full bg-primary text-on-primary text-label-md font-bold shadow-sm whitespace-nowrap"
+                            data-filtro="todos">Todos</button>
+                        <button
+                            class="filter-chip px-4 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all text-label-md font-medium whitespace-nowrap"
+                            data-filtro="pendientes">Pendientes</button>
+                        <button
+                            class="filter-chip px-4 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all text-label-md font-medium whitespace-nowrap"
+                            data-filtro="completados">Completados</button>
+                        <button
+                            class="filter-chip px-4 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all text-label-md font-medium whitespace-nowrap"
+                            data-filtro="recientes">Recientes</button>
+                        <button
+                            class="filter-chip px-4 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all text-label-md font-medium whitespace-nowrap"
+                            data-filtro="prioritarios">Prioritarios</button>
+                    </div>
+                </div>
+                <!-- Main Data Table Container -->
+                <div
+                    class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container-low border-b border-outline-variant">
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Documento</th>
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Estado</th>
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Fecha de Subida</th>
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Fecha de Creación</th>
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">
+                                    Autor</th>
+                                <th
+                                    class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="documentTableBody" class="divide-y divide-outline-variant"></tbody>
+                    </table>
+                    <!-- Table Pagination -->
+                    <div
+                        class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
+                        <div class="text-label-sm text-on-surface-variant">
+                            Mostrando <span id="pagStart" class="font-bold text-on-surface">0</span> - <span id="pagEnd"
+                                class="font-bold text-on-surface">0</span> de <span id="pagTotal"
+                                class="font-bold text-on-surface">0</span> resultados
+                        </div>
+                        <div class="flex items-center gap-1" id="paginationControls">
+                            <button id="btnPrevPage"
+                                class="p-1 rounded hover:bg-surface-container-highest transition-colors disabled:opacity-50"
+                                disabled>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <span id="pageNumbers" class="flex gap-1"></span>
+                            <button id="btnNextPage"
+                                class="p-1 rounded hover:bg-surface-container-highest transition-colors disabled:opacity-50">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- Mobile Navigation Overlay (For smaller breakpoints) -->
+    <nav
+        class="md:hidden fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant flex justify-around items-center h-16 px-gutter-mobile shadow-lg">
+        <!-- Mobile Nav Links Updated -->
+        <a class="mobile-nav-lista flex flex-col items-center justify-center text-primary font-bold transition-transform scale-95 active:scale-90"
+            href="index.html">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">list_alt</span>
+            <span class="text-label-sm font-label-sm">Lista</span>
+        </a>
+        <a class="mobile-nav-busqueda flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90"
+            href="busqueda.html">
+            <span class="material-symbols-outlined">search</span>
+            <span class="text-label-sm font-label-sm">Busqueda</span>
+        </a>
+        <a class="mobile-nav-documentos flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90"
+            href="documentos.html">
+            <span class="material-symbols-outlined">folder_open</span>
+            <span class="text-label-sm font-label-sm">Docs</span>
+        </a>
+        <a class="mobile-nav-reportes flex flex-col items-center justify-center text-on-surface-variant transition-transform active:scale-90"
+            href="reportes.html">
+            <span class="material-symbols-outlined">description</span>
+            <span class="text-label-sm font-label-sm">Reportes</span>
+        </a>
+    </nav>
+    <script>
+        // Simple search animation logic
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+
+        // Toggle mobile menu logic (concept)
+        document.querySelector('header button.material-symbols-outlined').addEventListener('click', () => {
+            const sidebar = document.querySelector('aside');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('fixed', 'left-0', 'top-14', 'h-[calc(100vh-56px)]', 'z-50', 'w-full', 'max-w-[280px]', 'animate-in', 'slide-in-from-left');
+            } else if (sidebar.classList.contains('fixed')) {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('fixed', 'left-0', 'top-14', 'h-[calc(100vh-56px)]', 'z-50', 'w-full', 'max-w-[280px]');
+            }
+        });
+    </script>
+
+    <!-- Modal Nuevo Documento -->
+    <div id="modalNuevoDocumento" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[100]">
+        <div class="bg-surface rounded-xl shadow-lg w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-headline-sm text-headline-sm">Nuevo Documento</h2>
+                <button id="btnCerrarModal"
+                    class="material-symbols-outlined text-on-surface-variant hover:text-error">close</button>
+            </div>
+            <form id="formNuevoDocumento" class="space-y-4">
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Título <span class="text-error">*</span></label>
+                    <input type="text" id="inputTitulo" required maxlength="255"
+                        placeholder="Título del documento"
+                        class="w-full text-body-md border border-outline-variant p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Descripción</label>
+                    <textarea id="inputDescripcion" rows="3"
+                        placeholder="Descripción breve del documento (opcional)"
+                        class="w-full text-body-md border border-outline-variant p-2 rounded"></textarea>
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Archivo <span class="text-error">*</span></label>
+                    <input type="file" id="inputFile" required
+                        class="w-full text-body-md border border-outline-variant p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Autor</label>
+                    <select id="selectAutor" required
+                        class="w-full text-body-md border border-outline-variant p-2 rounded">
+                        <option value="">Cargando autores...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Año de creación</label>
+                    <input type="number" id="inputAnioCreacion" min="1900" max="2200"
+                        placeholder="Ej. 2024"
+                        class="w-full text-body-md border border-outline-variant p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Clasificación</label>
+                    <select id="selectCategoria"
+                        class="w-full text-body-md border border-outline-variant p-2 rounded">
+                        <option value="">Sin clasificación</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Estado</label>
+                    <select id="selectEstado" disabled
+                        class="w-full text-body-md border border-outline-variant p-2 rounded bg-surface-container-low text-on-surface-variant cursor-not-allowed">
+                        <option value="completado" selected>Completado</option>
+                    </select>
+                    <p class="text-label-sm text-on-surface-variant mt-1">Los documentos nuevos se marcan como
+                        completados automáticamente.</p>
+                </div>
+                <div>
+                    <label class="block text-label-sm font-bold mb-1">Prioridad</label>
+                    <select id="selectPrioridad" class="w-full text-body-md border border-outline-variant p-2 rounded">
+                        <option value="baja">Baja</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="alta">Alta</option>
+                        <option value="urgente">Urgente</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button type="button" id="btnCancelarModal"
+                        class="px-4 py-2 rounded text-on-surface-variant hover:bg-surface-container-low font-bold">Cancelar</button>
+                    <button type="submit"
+                        class="px-4 py-2 rounded bg-primary text-white font-bold hover:brightness-110">Subir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

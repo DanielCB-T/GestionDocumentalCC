@@ -1,0 +1,96 @@
+name: GestorArchivosCC
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL · metadatos de documentos
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-stitch}
+      POSTGRES_USER: ${DB_USER:-stitch}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-stitch}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # El esquema se ejecuta automáticamente en el primer arranque
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-stitch} -d ${DB_NAME:-stitch}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ---------------------------------------------------------------------------
+  # Redis · caché de listados y búsquedas
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--appendonly", "no"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ---------------------------------------------------------------------------
+  # MinIO · almacenamiento de archivos (S3 compatible)
+  # ---------------------------------------------------------------------------
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    volumes:
+      - miniodata:/data
+    ports:
+      - "9000:9000"   # API S3
+      - "9001:9001"   # Consola web
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ---------------------------------------------------------------------------
+  # API · backend Python (FastAPI)
+  # ---------------------------------------------------------------------------
+  api:
+    build: ./app
+    environment:
+      DB_HOST: postgres
+      DB_NAME: ${DB_NAME:-stitch}
+      DB_USER: ${DB_USER:-stitch}
+      DB_PASSWORD: ${DB_PASSWORD:-stitch}
+      REDIS_HOST: redis
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: documentos
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # Frontend · Nginx (Web UI)
+  # ---------------------------------------------------------------------------
+  frontend:
+    build: ./Frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  miniodata:
