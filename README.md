@@ -1,4 +1,4 @@
-# Stitch · Gestión de Documentos
+# Centro de computo · Gestión de Documentos
 
 Backend contenedorizado para la interfaz **Stitch**. Conecta tres servicios
 mediante una API en Python:
